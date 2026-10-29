@@ -1,22 +1,12 @@
 import asyncio
 import os
 import re
-import json
 from typing import Union
-import requests
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-from youtubesearchpython.__future__ import VideosSearch
-from AnanyaxMusic.utils.database import is_on_off
-from AnanyaxMusic import akash
-from AnanyaxMusic.utils.formatters import time_to_seconds
-import random
-import logging
+from py_yt import VideosSearch, Playlist
 import aiohttp
-from AnanyaxMusic import LOGGER
-from urllib.parse import urlparse
-
 
 API_URL = os.environ.get("SHRUTI_API_URL", "https://api01.shrutibots.site")
 
