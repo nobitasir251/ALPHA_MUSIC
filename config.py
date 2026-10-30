@@ -43,12 +43,18 @@ STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
 STRING5 = getenv("STRING_SESSION5", None)
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ❖ ᴍ ɪ s ᴄ ᴇ ʟ ʟ ᴀ ɴ ᴇ ᴏ ᴜ s  s ᴇ ᴛ ᴛ ɪ ɴ ɢ s
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BUTTON_COLOUR = getenv("BUTTON_COLOUR", "True").lower() == "true"
 BANNED_USERS = filters.user()
 adminlist = {}
 lyrical = {}
 votemode = {}
 autoclean = []
 confirmer = {}
+DEBUG_IGNORE_LOG = True
+
 
 START_IMG_URL = getenv("START_IMG_URL", "https://files.catbox.moe/fu6jk3.jpg")
 PING_IMG_URL = getenv("PING_IMG_URL", "https://files.catbox.moe/26nzoq.jpg")
