@@ -2,7 +2,7 @@ import config
 import random
 from pyrogram import enums
 from pyrogram.types import InlineKeyboardButton
-from SIMPLE_MUSIC import app
+from SONALI import app
 
 STYLES = [
     enums.ButtonStyle.PRIMARY,
