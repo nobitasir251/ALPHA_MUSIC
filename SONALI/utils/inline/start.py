@@ -1,103 +1,95 @@
-import random
-
-from pyrogram.types import InlineKeyboardButton
-
 import config
-from SONALI import app
+import random
+from pyrogram import enums
+from pyrogram.types import InlineKeyboardButton
+from SIMPLE_MUSIC import app
 
-
-# Button styles: Blue, Green, Red
-try:
-    from pyrogram.enums import ButtonStyle
-except ImportError:
-    try:
-        from pyrogram.types import ButtonStyle
-    except ImportError:
-        ButtonStyle = None
-
-
-STYLES = (
-    [
-        ButtonStyle.PRIMARY,
-        ButtonStyle.SUCCESS,
-        ButtonStyle.DANGER,
-    ]
-    if ButtonStyle
-    else []
-)
-
-
-def get_button_style(style):
-    if (
-        getattr(config, "BUTTON_COLOUR", False)
-        and style is not None
-    ):
-        return {"style": style}
-    return {}
-
-
-def random_style():
-    if STYLES:
-        return random.choice(STYLES)
-    return None
-
+STYLES = [
+    enums.ButtonStyle.PRIMARY,
+    enums.ButtonStyle.SUCCESS,
+    enums.ButtonStyle.DANGER
+]
 
 def start_panel(_):
-    style1 = random_style()
-    style2 = random_style()
+    s1 = random.choice(STYLES)
+    
+    def get_style():
+        if getattr(config, "BUTTON_COLOUR", False):
+            return {"style": s1}
+        return {}
 
     buttons = [
         [
             InlineKeyboardButton(
-                text=_["S_B_1"],
+                text=_["S_B_1"], 
                 url=f"https://t.me/{app.username}?startgroup=true",
-                **get_button_style(style1)
+                **get_style()
             ),
             InlineKeyboardButton(
-                text=_["S_B_2"],
+                text=_["S_B_2"], 
                 url=config.SUPPORT_CHAT,
-                **get_button_style(style2)
+                **get_style()
             ),
-        ]
+        ],
     ]
-
     return buttons
 
 
 def private_panel(_):
-    styles = [random_style() for _ in range(4)]
+    s1, s2, s3 = random.sample(STYLES, 3)
+    s4 = random.choice(STYLES)
+    row_styles = [s1, s2, s3, s4]
 
-    owner_username = getattr(
-        config, "OWNER_USERNAME", ""
-    ).strip("@")
+    def get_style(index):
+        if getattr(config, "BUTTON_COLOUR", False):
+            return {"style": row_styles[index]}
+        return {}
 
     buttons = [
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
                 url=f"https://t.me/{app.username}?startgroup=true",
-                **get_button_style(styles[0])
+                **get_style(0)
             )
         ],
         [
             InlineKeyboardButton(
-                text=_["S_B_5"],
-                url=f"https://t.me/{owner_username}",
-                **get_button_style(styles[1])
+                text=_["S_B_5"], 
+                user_id=config.OWNER_ID,
+                **get_style(1)
             ),
             InlineKeyboardButton(
-                text=_["S_B_2"],
-                url=config.SUPPORT_CHAT,
-                **get_button_style(styles[2])
+                text=_["S_B_10"], 
+                callback_data="api_status",
+                **get_style(1)
             ),
         ],
         [
             InlineKeyboardButton(
-                text=_["S_B_4"],
-                callback_data="settings_back_helper",
-                **get_button_style(styles[3])
+                text=_["S_B_2"], 
+                url=config.SUPPORT_CHAT,
+                **get_style(2)
+            ),
+            InlineKeyboardButton(
+                text=_["S_B_6"], 
+                url=config.SUPPORT_CHANNEL,
+                **get_style(2)
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text=_["S_B_7"], 
+                url="https://github.com/Simple-Boy-1k/SIMPLE_MUSIC",
+                **get_style(3)
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=_["S_B_4"], 
+                callback_data="settingsback_helper",
+                **get_style(3)
             )
         ],
     ]
-
     return buttons
