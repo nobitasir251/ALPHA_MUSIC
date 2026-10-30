@@ -1,29 +1,50 @@
-
 import random
 
-from pyrogram import enums
 from pyrogram.types import InlineKeyboardButton
 
 import config
 from SONALI import app
 
 
-STYLES = [
-    enums.ButtonStyle.PRIMARY,
-    enums.ButtonStyle.SUCCESS,
-    enums.ButtonStyle.DANGER,
-]
+# Button styles: Blue, Green, Red
+try:
+    from pyrogram.enums import ButtonStyle
+except ImportError:
+    try:
+        from pyrogram.types import ButtonStyle
+    except ImportError:
+        ButtonStyle = None
+
+
+STYLES = (
+    [
+        ButtonStyle.PRIMARY,
+        ButtonStyle.SUCCESS,
+        ButtonStyle.DANGER,
+    ]
+    if ButtonStyle
+    else []
+)
 
 
 def get_button_style(style):
-    if getattr(config, "BUTTON_COLOUR", False):
+    if (
+        getattr(config, "BUTTON_COLOUR", False)
+        and style is not None
+    ):
         return {"style": style}
     return {}
 
 
+def random_style():
+    if STYLES:
+        return random.choice(STYLES)
+    return None
+
+
 def start_panel(_):
-    style1 = random.choice(STYLES)
-    style2 = random.choice(STYLES)
+    style1 = random_style()
+    style2 = random_style()
 
     buttons = [
         [
@@ -44,9 +65,11 @@ def start_panel(_):
 
 
 def private_panel(_):
-    styles = random.choices(STYLES, k=4)
+    styles = [random_style() for _ in range(4)]
 
-    owner_username = getattr(config, "OWNER_USERNAME", "").strip("@")
+    owner_username = getattr(
+        config, "OWNER_USERNAME", ""
+    ).strip("@")
 
     buttons = [
         [
